@@ -1,4 +1,7 @@
 #include<iostream>
+#include<cstdlib>
+#include<ctime>
+
 using namespace std;
 
 #include<vector>
@@ -25,16 +28,21 @@ struct Student{
     string password;
 	string email;
    
-     // Overloading the << operator to print a Student object
-        friend ostream& operator<<(ostream& os, const Student& student) {
-               
-			    os << "Name: " << student.name << endl;
-                os << "Password: " << student.password << endl;
-                os << "Email: " << student.email << endl;
-                return os;
-        }
+    // Overloading the << operator to print a Student object
+	//ostream objects can't be passed by value because they have a private copy constructor
+	//  returns an ostream object to  cout.
+		   
+	friend ostream& operator<<(ostream& os, const Student& student) {
+		    os<<"\nStudent"<<endl;
+			os << "Name: " << student.name << endl;
+            os << "Password: " << student.password << endl;
+            os << "Email: " << student.email << endl;
+            return os;
+     }
 };
+
 vector<Student> students;
+
 void SignIn(){
 
 string ad,pass;
@@ -51,13 +59,10 @@ getline(cin,pass);
    else{
 	    cout<<"Incorrect Username or Password:"<<endl;
      }
- } //SIGN IN ends
+ } //SIGN IN Ends...
 
-  void addstudent(){
-     
-	
-	
-     
+  int addstudent(){
+ 
 	 int numstudents;
 	 
 	 cout<<"Enter number of students you want to add:"<<endl;
@@ -79,16 +84,32 @@ getline(cin,pass);
 	   students.push_back(newStudent[i]);
 
 	  }
+    return numstudents;
+  }//ADD Student Ends...
 
-  }//ADD Student ends
-
+  void removestudents(int stud,Admin::admin a){
+ 
+   a.display_students();
+   cout<<"Total students"<<stud<<endl;
+   int index;
+   cout<<"\nEnter the student you wish to remove:"<<endl;
+   cin.ignore();
+  }
+  
+  
   void display_students(){
     for(auto& student:students){
-		cout<<student<<" "<<endl;
-	}
-  }
 
-}; //class Admin ends
+		cout<<student<<" "<<endl;
+	   
+	}
+  } //Display Student Ends...
+
+
+  
+
+
+}; //class Admin Ends...
 
 
 
@@ -97,8 +118,8 @@ getline(cin,pass);
 int main(){
 Admin::admin a;
 a.SignIn();
-a.addstudent();
+int total_students=a.addstudent();
+a.removestudents(total_students,a);
 a.display_students();
-a.addstudent();
-a.display_students();
+
 }
