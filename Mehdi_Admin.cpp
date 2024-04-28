@@ -25,20 +25,29 @@ admin(){
 struct Student{
 	
 	string name;
-    string password;
+  string password;
 	string email;
    
-    // Overloading the << operator to print a Student object
+  // Overloading the << operator to print a vector object
 	//ostream objects can't be passed by value because they have a private copy constructor
 	//  returns an ostream object to  cout.
 		   
-	friend ostream& operator<<(ostream& os, const Student& student) {
-		    os<<"\nStudent"<<endl;
-			os << "Name: " << student.name << endl;
-            os << "Password: " << student.password << endl;
-            os << "Email: " << student.email << endl;
-            return os;
-     }
+	friend ostream& operator<<(ostream& os,vector<Student>&st) {
+   
+    cout<<"\n         STUDENTS INFORMATION \n";
+    for(int i=0;i<st.size();i++){
+     
+      cout<<"\nStudent "<<i+1<<"\n"<<endl;
+      cout<<"Name:"<<st[i].name<<endl;
+      cout<<"Password"<<st[i].password<<endl;
+      cout<<"Email"<<st[i].email<<endl;
+      
+    }
+  
+    return os;
+  
+  }
+  
 };
 
 vector<Student> students;
@@ -76,7 +85,7 @@ getline(cin,pass);
 	   getline(cin,newStudent[i].name);
 	   
 	   cout<<"Enter the password of student "<<i+1<<":"<<endl;	
-       getline(cin,newStudent[i].password);
+     getline(cin,newStudent[i].password);
 
 	   cout<<"Enter the email of Student "<<i+1<<":"<<endl;
 	   getline(cin,newStudent[i].email);
@@ -84,13 +93,16 @@ getline(cin,pass);
 	   students.push_back(newStudent[i]);
 
 	  }
+
     return numstudents;
+
   }//ADD Student Ends...
+
 
   void removestudents(int stud,Admin::admin a){
  
    a.display_students();
-   cout<<"Total students"<<stud<<endl;
+   cout<<"\nTotal students"<<stud<<endl;
    int index;
    cout<<"\nEnter the student you wish to remove:"<<endl;
    cin.ignore();
@@ -98,11 +110,7 @@ getline(cin,pass);
   
   
   void display_students(){
-    for(auto& student:students){
-
-		cout<<student<<" "<<endl;
-	   
-	}
+    cout<<students;
   } //Display Student Ends...
 
 
