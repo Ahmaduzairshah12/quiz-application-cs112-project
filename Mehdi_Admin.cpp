@@ -1,4 +1,4 @@
-#include<iostream>
+ #include<iostream>
 #include<cstdlib>
 #include<ctime>
 
@@ -35,6 +35,7 @@ struct Student{
 	friend ostream& operator<<(ostream& os,vector<Student>&st) {
    
     cout<<"\n         STUDENTS INFORMATION \n";
+   
     for(int i=0;i<st.size();i++){
      
       cout<<"\nStudent "<<i+1<<"\n"<<endl;
@@ -70,7 +71,7 @@ getline(cin,pass);
      }
  } //SIGN IN Ends...
 
-  int addstudent(){
+   void addstudent(){
  
 	 int numstudents;
 	 
@@ -94,23 +95,58 @@ getline(cin,pass);
 
 	  }
 
-    return numstudents;
+   
 
   }//ADD Student Ends...
 
 
-  void removestudents(int stud,Admin::admin a){
+  void removestudents(){
  
-   a.display_students();
-   cout<<"\nTotal students"<<stud<<endl;
-   int index;
-   cout<<"\nEnter the student you wish to remove:"<<endl;
-   cin.ignore();
+   display_students();
+    
+    int remove;
+    cout<<"How many students you want to remove ?:"<<endl;
+    cin>>remove;
+    cin.ignore();
+    int num;
+    num=students.size();
+    cout<<endl;
+    
+    do{
+      
+      int index;
+      
+      cout<<"\nTELL ME WHICH STUDENT TO REMOVE FROM BELOW LIST:"<<endl;
+      display_students(); 
+      cout<<"\nStudent:";
+      cin>>index;
+      cin.ignore();
+      
+      if(index>num){
+        cout<<"No student exist of that number from the list"<<endl;
+        break;
+      }
+
+      --index;
+      for(int i=0;i<num;i++){
+        
+        if(i==index){
+          students.erase(students.begin()+i);
+          cout<<"Student "<<i+1<<"is removed successfully"<<endl;
+        }
+      
+      }  
+      --num;
+      --remove;
+    
+    }while(remove>0);
+  
   }
   
   
   void display_students(){
     cout<<students;
+    cout<<"\nTotal number of students are:"<<students.size()<<endl;
   } //Display Student Ends...
 
 
@@ -126,8 +162,8 @@ getline(cin,pass);
 int main(){
 Admin::admin a;
 a.SignIn();
-int total_students=a.addstudent();
-a.removestudents(total_students,a);
-a.display_students();
+a.addstudent();
+a.removestudents();
+
 
 }
