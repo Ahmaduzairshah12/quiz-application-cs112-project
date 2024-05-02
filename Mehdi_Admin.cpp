@@ -154,15 +154,17 @@ getline(cin,pass);
 struct Subjects{
 
   string subject_name;
-
+   
+  char answers[10];
+    
     void function(string file){
     
      cout<<"\nSUBJECT: "<<subject_name<<endl<<endl;
-     
+    
      ifstream obj(file);
   
      string store;
-     char ans[]={'b','a','d'};
+     
      char choice;
      int line=1;
      int i=0;
@@ -178,7 +180,7 @@ struct Subjects{
             cin>>choice;
             cin.ignore();
           
-          if(choice==ans[i]){
+          if(choice==answers[i]){
            
             cout<<"\nCORRECT"<<endl<<endl;    
         }
@@ -196,6 +198,7 @@ struct Subjects{
 
 
 };
+
 void function();
 
 }; //class Admin Ends...
@@ -205,11 +208,30 @@ void function();
 
 vector<Admin::admin::Subjects> t;
 
-void Admin:: admin::function(){
+void Admin :: admin::function(){
 
-Subjects s1;
-s1.subject_name="MATHS";
-t.push_back(s1);
+Subjects s1[4];
+s1[0].subject_name="C++";
+
+char c[] = "dcbdcadcdd";
+char python[]="cdbcadabbd";
+char javascript[]="aabadbbaac";
+char java[]="bdcbcddcbb";
+
+for(int i=0;i<10;i++){
+  s1[0].answers[i]=c[i];
+  s1[3].answers[i]=python[i];
+  s1[2].answers[i]=javascript[i];
+  s1[1].answers[i]=java[i];
+}
+
+s1[1].subject_name="JAVA";
+s1[2].subject_name="JAVA SCRIPT";
+s1[3].subject_name="PYTHON";
+
+for(int i=0;i<4;i++){
+t.push_back(s1[i]);
+}
 
 }
 
@@ -219,9 +241,12 @@ Admin::admin a;
 // a.addstudent();
 // a.removestudents();
 
-    string name="Math.txt";
-   
     a.function();
-    t[0].function(name);
-
+    string name[4]={"C++.txt","JAVA.txt","JAVASCRIPT.txt","PYTHON.txt"};
+ 
+    for(int i=0;i<4;i++){
+      t[i].function(name[i]);
+    }
+   
+   
 }
