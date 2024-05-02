@@ -1,6 +1,7 @@
- #include<iostream>
+#include<iostream>
 #include<cstdlib>
 #include<ctime>
+#include<fstream>
 
 using namespace std;
 
@@ -20,6 +21,7 @@ public:
 admin(){
 	admin_name="Mehdi";
 	admin_password="2004";
+ 
 }
 
 struct Student{
@@ -149,21 +151,77 @@ getline(cin,pass);
     cout<<"\nTotal number of students are:"<<students.size()<<endl;
   } //Display Student Ends...
 
+struct Subjects{
 
+  string subject_name;
+
+    void function(string file){
+    
+     cout<<"\nSUBJECT: "<<subject_name<<endl<<endl;
+     
+     ifstream obj(file);
   
+     string store;
+     char ans[]={'b','a','d'};
+     char choice;
+     int line=1;
+     int i=0;
+        
+        while(getline(obj,store)){
+     
+          cout<<store<<endl;
+    
+          if(line%6==0){
+            
+            cout<<"\n";
+            cout<<"Choose a,b,c,d"<<endl;
+            cin>>choice;
+            cin.ignore();
+          
+          if(choice==ans[i]){
+           
+            cout<<"\nCORRECT"<<endl<<endl;    
+        }
 
+        else{
+           
+            cout<<"\nINCORRECT"<<endl<<endl;
+        }
+        ++i;
+        }
+
+    ++line;
+   }
+ }
+
+
+};
+void function();
 
 }; //class Admin Ends...
 
-
-
 }//Namspace Admin ends
+
+
+vector<Admin::admin::Subjects> t;
+
+void Admin:: admin::function(){
+
+Subjects s1;
+s1.subject_name="MATHS";
+t.push_back(s1);
+
+}
 
 int main(){
 Admin::admin a;
-a.SignIn();
-a.addstudent();
-a.removestudents();
+// a.SignIn();
+// a.addstudent();
+// a.removestudents();
 
+    string name="Math.txt";
+   
+    a.function();
+    t[0].function(name);
 
 }
