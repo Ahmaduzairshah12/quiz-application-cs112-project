@@ -34,7 +34,7 @@ struct Student{
         //ostream objects can't be passed by value because they have a private copy constructor
         //  returns an ostream object to  cout.
 
-        friend ostream& operator<<(ostream& os,vector<Student>&st) {
+   friend ostream& operator<<(ostream& os,vector<Student>&st) {
 
     cout<<"\n         STUDENTS INFORMATION \n";
 
@@ -234,7 +234,9 @@ t.push_back(s1[i]);
 }
 
 }
+
 namespace Student {
+   
     class Student {
     private:
         string name;
@@ -258,27 +260,26 @@ namespace Student {
             while (getline(file, store)) {
                 cout << store << endl;
                 if (line % 6 == 0) {
+                    cout<<"\n";
                     cout << "Choose a, b, c, d: ";
                     cin >> choice;
                     cin.ignore();
+                    cout<<"\n";
                     if (choice == answers[i]) {
-                        cout << "CORRECT" << endl << endl;
                         score++;
-                    } else {
-                        cout << "INCORRECT" << endl << endl;
-                    }
+                    } 
                     ++i;
                 }
                 ++line;
             }
 
             file.close();
-            cout << "Quiz for subject " << subject << " finished. Score: " << score << "/10" << endl;
             quizResults.push_back(make_pair(subject, score));
+
         }
 
         void viewQuizHistory() {
-            cout << "Quiz History for Student: " << name << endl;
+            cout << "\nQUIZ HISTORY FOR STUDENT: " << name << endl<<endl;
             for (const auto& result : quizResults) {
                 cout << "Subject: " << result.first << ", Score: " << result.second << "/10" << endl;
             }
@@ -286,7 +287,9 @@ namespace Student {
     };
 }
 
+
 int main(){
+
 Admin::admin a;
 // a.SignIn();
 // a.addstudent();
@@ -294,19 +297,16 @@ Admin::admin a;
 
     a.function();
     string name[4]={"C++.txt","JAVA.txt","JAVASCRIPT.txt","PYTHON.txt"};
-
-    for(int i=0;i<4;i++){
-      t[i].function(name[i]);
-       Student::Student student("John");
-
+    Student::Student student("John");
+    
     // Assuming the subject files are available
-    string subjects[4] = {"C++.txt", "JAVA.txt", "JAVASCRIPT.txt", "PYTHON.txt"};
-    for (int i = 0; i < 4; ++i) {
-        student.takeQuiz(subjects[i], subjects[i]);
+    string subjects[4] = {"C++.txt", "JAVA.txt", "JAVASCRIPT.txt", "PYTHON.txt"};    
+   
+    for(int i=0;i<4;i++){
+      student.takeQuiz(subjects[i], subjects[i]);
+     
     }
-
-    student.viewQuizHistory();
-    }
-
+student.viewQuizHistory();
+ 
 
 }
