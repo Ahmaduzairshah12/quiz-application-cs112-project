@@ -205,7 +205,7 @@ void function();
 
 }//Namspace Admin ends
 
-
+//-----------------------------------------------------------------------------------------------------------------------------------//
 vector<Admin::admin::Subjects> t;
 
 void Admin :: admin::function(){
@@ -234,16 +234,16 @@ t.push_back(s1[i]);
 }
 
 }
+//--------------------------------------------------------------------------------------------------------------------------------------//
 
 namespace Student {
    
-    class Student {
-    private:
-        string name;
+    class Student : public Admin::admin {
+    private :
+        string name ;
         vector<pair<string, int>> quizResults; // Pair of (subject, score)
     public:
         Student(string _name) : name(_name) {}
-
         void takeQuiz(const string& subject, const string& answersFileName) {
             ifstream file(answersFileName);
             if (!file.is_open()) {
@@ -284,9 +284,15 @@ namespace Student {
                 cout << "Subject: " << result.first << ", Score: " << result.second << "/10" << endl;
             }
         }
+        bool login(const string& username, const string & password){
+            for(auto & student : Admin::admin::students){
+                if(student.name == username && student.password == password){
+                    return true;
+                }
+            }return false;
+        }
     };
 }
-
 
 int main(){
 
