@@ -2,70 +2,46 @@
 #include<cstdlib>
 #include<ctime>
 #include<fstream>
-
-using namespace std;
-
 #include<vector>
-
+using namespace std;
 namespace Admin{
-
 //ADMIN
 class admin{
-
 private:
 string admin_name;
 string admin_password;
-
 public:
-
 admin(){
         admin_name="Mehdi";
         admin_password="2004";
-
 }
-
 struct Student{
+    string name;
+    string password;
+    string email;
 
-        string name;
-  string password;
-        string email;
-
-  // Overloading the << operator to print a vector object
+        // Overloading the << operator to print a vector object
         //ostream objects can't be passed by value because they have a private copy constructor
         //  returns an ostream object to  cout.
-
-   friend ostream& operator<<(ostream& os,vector<Student>&st) {
-
+    friend ostream& operator<<(ostream& os,vector<Student>&st) {
     cout<<"\n         STUDENTS INFORMATION \n";
-
     for(int i=0;i<st.size();i++){
-
       cout<<"\nStudent "<<i+1<<"\n"<<endl;
       cout<<"Name:"<<st[i].name<<endl;
       cout<<"Password"<<st[i].password<<endl;
       cout<<"Email"<<st[i].email<<endl;
-
-    }
-
-    return os;
-
-  }
-
+}
+return os;
+}
 };
-
 vector<Student> students;
-
 void SignIn(){
-
 string ad,pass;
-
 cout<<"Enter the name:"<<endl;
 getline(cin,ad);
-
 cout<<"Enter the password:"<<endl;
 getline(cin,pass);
-
-   if(ad==admin_name && pass==admin_password){
+if(ad==admin_name && pass==admin_password){
                 cout<<"LOGGED IN"<<endl;
      } 
    else{
@@ -254,6 +230,7 @@ namespace Student {
             string answers;
             int score = 0;
             char choice;
+            
             int line = 1;
             int i = 0;
             string store;
@@ -293,26 +270,40 @@ namespace Student {
         }
     };
 }
+int main() {
+    Admin::admin admin_1;
+    int choice;
+    while (true) {
+        std::cout << "1. Sign in" << std::endl;
+        std::cout << "2. Add student" << std::endl;
+        std::cout << "3. Remove students" << std::endl;
+        std::cout << "4. Display students" << std::endl;
+        std::cout << "5. Quiz" << std::endl;
+        std::cout << "6. Exit" << std::endl;
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
+        std::cin.ignore();
 
-int main(){
-
-Admin::admin a;
-// a.SignIn();
-// a.addstudent();
-// a.removestudents();
-
-    a.function();
-    string name[4]={"C++.txt","JAVA.txt","JAVASCRIPT.txt","PYTHON.txt"};
-    Student::Student student("John");
-    
-    // Assuming the subject files are available
-    string subjects[4] = {"C++.txt", "JAVA.txt", "JAVASCRIPT.txt", "PYTHON.txt"};    
-   
-    for(int i=0;i<4;i++){
-      student.takeQuiz(subjects[i], subjects[i]);
-     
+        switch (choice) {
+            case 1:
+               // admin_1.signIn();
+                break;
+            case 2:
+                admin_1.addstudent();
+                break;
+            case 3:
+                admin_1.removestudents();
+                break;
+            case 4:
+                admin_1.display_students();
+                break;
+        
+            case 6:
+                return 0;
+            default:
+                std::cout << "Invalid choice." << std::endl;
+                break;
+        }
     }
-student.viewQuizHistory();
- 
-
+    return 0;
 }
