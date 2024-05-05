@@ -1,0 +1,60 @@
+Question 1
+Who developed Python Programming Language?
+a) Wick van Rossum
+b) Rasmus Lerdorf
+c) Guido van Rossum
+d) Niene Stom
+Question 2
+Which type of Programming does Python support?
+a) object-oriented programming
+b) structured programming
+c) functional programming
+d) all of the mentioned
+Question 3
+Is Python case sensitive when dealing with identifiers?
+a) no
+b) yes
+c) machine dependent
+d) none of the mentioned
+Question 4
+Which of the following is the correct extension of the Python file?
+a) .python
+b) .pl
+c) .py
+d) .p
+Question 5
+Is Python code compiled or interpreted?
+a) Python code is both compiled and interpreted
+b) Python code is neither compiled nor interpreted
+c) Python code is only compiled
+d) Python code is only interpreted
+Question 6
+All keywords in Python are in _________
+a) Capitalized
+b) lower case
+c) UPPER CASE
+d) None of the mentioned
+Question 7
+Which of the following is used to define a block of code in Python language?
+a) Indentation
+b) Key
+c) Brackets
+d) All of the mentioned
+Question 8
+Which keyword is used for function in Python language?
+a) Function
+b) def
+c) Fun
+d) Define
+Question 9
+Which of the following character is used to give single-line comments in Python?
+a) //
+b) #
+c) !
+d) /*
+Question 10
+Which of the following functions can help us to find the version of python that we are currently working on?
+a) sys.version(1)
+b) sys.version(0)
+c) sys.version()
+d) sys.version
