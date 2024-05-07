@@ -284,5 +284,27 @@ int main() {
         std::cin >> choice;
         std::cin.ignore();
 
+        switch (choice) {
+            case 1:
+               // admin_1.signIn();
+                break;
+            case 2:
+                admin_1.addstudent();
+                break;
+            case 3:
+                admin_1.removestudents();
+                break;
+            case 4:
+                admin_1.display_students();
+                break;
         
+            case 6:
+                return 0;
+     default:
+                std::cout << "Invalid choice selected ." << std::endl;
+            break;
+        }
+    }
+    return 0;
+}
 
