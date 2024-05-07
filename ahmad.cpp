@@ -3,14 +3,14 @@
 #include<ctime>
 #include<fstream>
 #include<vector>
+#include<cstdlib>
 using namespace std;
 namespace Admin{
 //ADMIN
 class admin{
-private:
+public:
 string admin_name;
 string admin_password;
-public:
 admin(){
         admin_name="Mehdi";
         admin_password="2004";
@@ -35,19 +35,20 @@ return os;
 }
 };
 vector<Student> students;
-void SignIn(){
-string ad,pass;
-cout<<"Enter the name:"<<endl;
-getline(cin,ad);
-cout<<"Enter the password:"<<endl;
-getline(cin,pass);
-if(ad==admin_name && pass==admin_password){
-                cout<<"LOGGED IN"<<endl;
-     } 
-   else{
-            cout<<"Incorrect Username or Password:"<<endl;
-     }
- } //SIGN IN Ends...
+
+            void SignIn(){
+            string ad,pass;
+            cout<<"Enter the name:"<<endl;
+            getline(cin,ad);
+            cout<<"Enter the password:"<<endl;
+            getline(cin,pass);
+            if(ad==admin_name && pass==admin_password){
+                            cout<<"LOGGED IN"<<endl;
+                } 
+            else{
+                        cout<<"Incorrect Username or Password:"<<endl;
+                }
+            } //SIGN IN Ends...
 
    void addstudent(){
 
@@ -271,40 +272,82 @@ namespace Student {
     };
 }
 int main() {
-    Admin::admin admin_1;
-    int choice;
-    while (true) {
-        std::cout << "1. Sign in" << std::endl;
-        std::cout << "2. Add student" << std::endl;
-        std::cout << "3. Remove students" << std::endl;
-        std::cout << "4. Display students" << std::endl;
-        std::cout << "5. Quiz" << std::endl;
-        std::cout << "6. Exit" << std::endl;
-        std::cout << "Enter your choice: ";
-        std::cin >> choice;
-        std::cin.ignore();
+    Admin::admin ad;
+    Student::Student student("John Doe");
 
-        switch (choice) {
-            case 1:
-               // admin_1.signIn();
-                break;
-            case 2:
-                admin_1.addstudent();
-                break;
-            case 3:
-                admin_1.removestudents();
-                break;
-            case 4:
-                admin_1.display_students();
-                break;
-        
-            case 6:
-                return 0;
-     default:
-                std::cout << "Invalid choice selected ." << std::endl;
-            break;
+   cout << "Welcome to the Quiz System!" <<endl;
+   cout << "1 to login as admin "<<endl;
+   cout << "2 to login as student: "<<endl;
+    int choice;
+   cin >> choice;
+   cin.ignore();
+
+    if (choice == 1) {
+        ad.SignIn();
+        if (ad.admin_name == "Mehdi" && ad.admin_password == "2004") {
+           cout << "Logged in as admin." <<endl;
+            int option;
+           cout << "Choose an option:" <<endl;
+           cout << "1. Add student" <<endl;
+           cout << "2. Remove students" <<endl;
+           cout << "3. Display students" <<endl;
+           cout << "4. Add subject" <<endl;
+           cout << "Enter your choice: ";
+           cin >> option;
+           cin.ignore();
+
+            switch (option) {
+                case 1:
+                    ad.addstudent();
+                    break;
+                case 2:
+                    ad.removestudents();
+                    break;
+                case 3:
+                    ad.display_students();
+                    break;
+                case 4:
+                  //  ad.add_subject();
+                    break;
+                default:
+                   cout << "Invalid option." <<endl;
+            }
+        }
+    } else if (choice == 2) {
+       string username, password;
+       cout << "Enter username: ";
+       getline(std::cin, username);
+       cout << "Enter password: ";
+       getline(std::cin, password);
+
+        if (student.login(username, password)) {
+           cout << "Logged in as student." <<endl;
+            int option;
+           string subject;
+           cout << "Choose an option:" <<endl;
+           cout << "1. Take a quiz" <<endl;
+           cout << "2. View quiz history" <<endl;
+           cout << "Enter your choice: ";
+           cin >> option;
+           cin.ignore();
+             
+            switch (option) {
+                case 1:
+                   
+                   cout << "Enter subject: ";
+                   getline(std::cin, subject);
+                    student.takeQuiz(subject, "quiz_" + subject + ".txt");
+                    break;
+                case 2:
+                    student.viewQuizHistory();
+                    break;
+                default:
+                   cout << "Invalid option." <<endl;
+            }
+        } else {
+           cout << "Invalid username or password." <<endl;
         }
     }
+
     return 0;
 }
-
