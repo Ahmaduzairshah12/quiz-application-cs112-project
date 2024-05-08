@@ -5,17 +5,26 @@
 #include<vector>
 #include<cstdlib>
 using namespace std;
+
 namespace Admin{
+
 //ADMIN
+
 class admin{
-public:
+
+private:
 string admin_name;
 string admin_password;
+public:
+void add_subject();
+
 admin(){
         admin_name="Mehdi";
         admin_password="2004";
 }
+
 struct Student{
+
     string name;
     string password;
     string email;
@@ -23,20 +32,27 @@ struct Student{
         // Overloading the << operator to print a vector object
         //ostream objects can't be passed by value because they have a private copy constructor
         //  returns an ostream object to  cout.
+  
     friend ostream& operator<<(ostream& os,vector<Student>&st) {
     cout<<"\n         STUDENTS INFORMATION \n";
+   
     for(int i=0;i<st.size();i++){
       cout<<"\nStudent "<<i+1<<"\n"<<endl;
       cout<<"Name:"<<st[i].name<<endl;
       cout<<"Password"<<st[i].password<<endl;
       cout<<"Email"<<st[i].email<<endl;
 }
+
 return os;
+
 }
+
 };
+
 vector<Student> students;
 
-            void SignIn(){
+            bool SignIn(){
+           
             string ad,pass;
             cout<<"Enter the name:"<<endl;
             getline(cin,ad);
@@ -44,9 +60,11 @@ vector<Student> students;
             getline(cin,pass);
             if(ad==admin_name && pass==admin_password){
                             cout<<"LOGGED IN"<<endl;
+                            return true;
                 } 
             else{
-                        cout<<"Incorrect Username or Password:"<<endl;
+                    
+                        return false;
                 }
             } //SIGN IN Ends...
 
@@ -211,15 +229,19 @@ t.push_back(s1[i]);
 }
 
 }
+
 //--------------------------------------------------------------------------------------------------------------------------------------//
 
 namespace Student {
-   
+
     class Student : public Admin::admin {
+    
     private :
         string name ;
         vector<pair<string, int>> quizResults; // Pair of (subject, score)
+    
     public:
+      
         Student(string _name) : name(_name) {}
         void takeQuiz(const string& subject, const string& answersFileName) {
             ifstream file(answersFileName);
@@ -231,7 +253,7 @@ namespace Student {
             string answers;
             int score = 0;
             char choice;
-            
+
             int line = 1;
             int i = 0;
             string store;
@@ -262,6 +284,7 @@ namespace Student {
                 cout << "Subject: " << result.first << ", Score: " << result.second << "/10" << endl;
             }
         }
+      
         bool login(const string& username, const string & password){
             for(auto & student : Admin::admin::students){
                 if(student.name == username && student.password == password){
@@ -271,54 +294,116 @@ namespace Student {
         }
     };
 }
-int main() {
-    Admin::admin ad;
-    Student::Student student("John Doe");
 
+void Admin::admin::add_subject() {
+   
+    string subject_name;
+    char answers[10];
+
+    cout << "Enter subject name: ";
+    getline(cin, subject_name);
+
+    cout << "Enter answers for the quiz (e.g., abcdabcdab): ";
+    for (int i = 0; i < 10; ++i) {
+        cin >> answers[i];
+    }
+    cin.ignore(); // Ignore newline character
+
+    // Create a new Subject object
+    Subjects new_subject;
+    new_subject.subject_name = subject_name;
+   
+    for (int i = 0; i < 10; ++i) {
+        new_subject.answers[i] = answers[i];
+    }
+
+    // Add the new subject to the subjects vector
+    t.push_back(new_subject);
+
+    cout << "Subject added successfully!" << endl;
+}
+
+
+int main() {
+    bool admin_check;
+    Admin::admin ad;
+    bool check=true;
+    bool a=true;
+    bool s=true;
+    Student::Student student("John Doe");
+ 
+  do{
+  
    cout << "Welcome to the Quiz System!" <<endl;
    cout << "1 to login as admin "<<endl;
    cout << "2 to login as student: "<<endl;
-    int choice;
+    
+   int choice;
    cin >> choice;
    cin.ignore();
-
+   
+   
+   
     if (choice == 1) {
-        ad.SignIn();
-        if (ad.admin_name == "Mehdi" && ad.admin_password == "2004") {
-           cout << "Logged in as admin." <<endl;
-            int option;
+       
+        admin_check=ad.SignIn();
+        if (admin_check == true) {
+            cout << "Welcome Admin!" <<endl;
+
+   do{    
+           
+         
+           int option;
            cout << "Choose an option:" <<endl;
            cout << "1. Add student" <<endl;
            cout << "2. Remove students" <<endl;
            cout << "3. Display students" <<endl;
            cout << "4. Add subject" <<endl;
+           cout<<  "5. Exit"<<endl;
            cout << "Enter your choice: ";
            cin >> option;
            cin.ignore();
 
             switch (option) {
+         
                 case 1:
                     ad.addstudent();
                     break;
+         
                 case 2:
                     ad.removestudents();
                     break;
+             
                 case 3:
                     ad.display_students();
                     break;
+             
                 case 4:
-                  //  ad.add_subject();
+                    ad.add_subject();
                     break;
+                case 5:
+                     a=false;
+                     break;
                 default:
                    cout << "Invalid option." <<endl;
             }
+        
+    }while(a);
         }
-    } else if (choice == 2) {
+        else{
+            cout << "Invalid username or password." <<endl;
+        }
+    }
+     
+      
+       
+       if (choice == 2) {
+       do{
        string username, password;
        cout << "Enter username: ";
-       getline(std::cin, username);
+       getline(cin, username);
        cout << "Enter password: ";
-       getline(std::cin, password);
+       getline(cin, password);
 
         if (student.login(username, password)) {
            cout << "Logged in as student." <<endl;
@@ -327,27 +412,33 @@ int main() {
            cout << "Choose an option:" <<endl;
            cout << "1. Take a quiz" <<endl;
            cout << "2. View quiz history" <<endl;
+           cout<<"  3. Exit"<<endl;
            cout << "Enter your choice: ";
            cin >> option;
            cin.ignore();
-             
+
             switch (option) {
+                
                 case 1:
-                   
                    cout << "Enter subject: ";
-                   getline(std::cin, subject);
+                   getline(cin, subject);
                     student.takeQuiz(subject, "quiz_" + subject + ".txt");
                     break;
                 case 2:
                     student.viewQuizHistory();
                     break;
+                case 3:
+                s=false;
+                 break;
                 default:
                    cout << "Invalid option." <<endl;
             }
         } else {
            cout << "Invalid username or password." <<endl;
         }
-    }
+    }while(s); }
+    
+    
+    }while(check);
 
-    return 0;
 }
