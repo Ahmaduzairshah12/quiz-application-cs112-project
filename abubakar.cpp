@@ -275,6 +275,7 @@ namespace Student {
 void Admin::admin::add_subject() {
     string subject_name;
     char answers[10];
+    vector<string> questions(10);
 
     cout << "Enter subject name: ";
     getline(cin, subject_name);
@@ -284,6 +285,12 @@ void Admin::admin::add_subject() {
         cin >> answers[i];
     }
     cin.ignore(); // Ignore newline character
+
+    cout << "Enter questions for the quiz:" << endl;
+    for (int i = 0; i < 10; ++i) {
+        cout << "Question " << i + 1 << ": ";
+        getline(cin, questions[i]);
+    }
 
     // Create a new Subject object
     Subjects new_subject;
@@ -295,8 +302,19 @@ void Admin::admin::add_subject() {
     // Add the new subject to the subjects vector
     t.push_back(new_subject);
 
-    cout << "Subject added successfully!" << endl;
+    // Create a new file for the subject and write the questions into it
+    ofstream file("quiz_" + subject_name + ".txt");
+    if (file.is_open()) {
+        for (int i = 0; i < 10; ++i) {
+            file << questions[i] << endl;
+        }
+        file.close();
+        cout << "Subject added successfully and questions saved in quiz_" << subject_name << ".txt!" << endl;
+    } else {
+        cout << "Error: Unable to create file for the subject." << endl;
+    }
 }
+
 
 int main() {
     Admin::admin ad;
