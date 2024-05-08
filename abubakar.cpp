@@ -274,62 +274,71 @@ namespace Student {
 }
 void Admin::admin::add_subject() {
     string subject_name;
+    string input;
     int num_questions;
 
-    cout << "Enter subject name: ";
-    getline(cin, subject_name);
+    do {
+        cout << "Enter subject name: ";
+        getline(cin, subject_name);
 
-    cout << "Enter the number of questions for the quiz: ";
-    cin >> num_questions;
-    cin.ignore(); // Ignore newline character
+        cout << "Enter the number of questions for the quiz: ";
+        getline(cin, input);
+        num_questions = stoi(input);
 
-    vector<pair<string, char[4]>> questions_and_answers(num_questions);
+        vector<pair<string, char[4]>> questions_and_answers(num_questions);
 
-    cout << "Enter questions and their answers for the quiz:" << endl;
-    for (int i = 0; i < num_questions; ++i) {
-        cout << "Question " << i + 1 << ": ";
-        getline(cin, questions_and_answers[i].first);
-        cout << "Enter options (a, b, c, d) for Question " << i + 1 << ":" << endl;
-        cout << "Option a: ";
-        cin >> questions_and_answers[i].second[0];
-        cout << "Option b: ";
-        cin >> questions_and_answers[i].second[1];
-        cout << "Option c: ";
-        cin >> questions_and_answers[i].second[2];
-        cout << "Option d: ";
-        cin >> questions_and_answers[i].second[3];
-        cin.ignore(); // Ignore newline character
-    }
-
-    // Create a new Subject object
-    Subjects new_subject;
-    new_subject.subject_name = subject_name;
-
-    for (int i = 0; i < num_questions; ++i) {
-        for (int j = 0; j < 4; ++j) {
-            new_subject.answers[i * 4 + j] = questions_and_answers[i].second[j];
-        }
-    }
-
-    // Add the new subject to the subjects vector
-    t.push_back(new_subject);
-
-    // Create a new file for the subject and write the questions into it
-    ofstream file("quiz_" + subject_name + ".txt");
-    if (file.is_open()) {
+        cout << "Enter questions and their answers for the quiz:" << endl;
         for (int i = 0; i < num_questions; ++i) {
-            file << "Question " << i + 1 << ": " << questions_and_answers[i].first << endl;
-            file << "Options: " << endl;
-            file << "a) " << questions_and_answers[i].second[0] << endl;
-            file << "b) " << questions_and_answers[i].second[1] << endl;
-            file << "c) " << questions_and_answers[i].second[2] << endl;
-            file << "d) " << questions_and_answers[i].second[3] << endl;
+            cout << "Question " << i + 1 << ": ";
+            getline(cin, questions_and_answers[i].first);
+            cout << "Enter options (a, b, c, d) for Question " << i + 1 << ":" << endl;
+            cout << "Option a: ";
+            getline(cin, input);
+            questions_and_answers[i].second[0] = input[0];
+            cout << "Option b: ";
+            getline(cin, input);
+            questions_and_answers[i].second[1] = input[0];
+            cout << "Option c: ";
+            getline(cin, input);
+            questions_and_answers[i].second[2] = input[0];
+            cout << "Option d: ";
+            getline(cin, input);
+            questions_and_answers[i].second[3] = input[0];
         }
-        file.close();
-        cout << "Subject added successfully and questions saved in quiz_" << subject_name << ".txt!" << endl;
-    } else {
-        cout << "Error: Unable to create file for the subject." << endl;
-    }
+
+        // Create a new Subject object
+        Subjects new_subject;
+        new_subject.subject_name = subject_name;
+
+        for (int i = 0; i < num_questions; ++i) {
+            for (int j = 0; j < 4; ++j) {
+                new_subject.answers[i * 4 + j] = questions_and_answers[i].second[j];
+            }
+        }
+
+        // Add the new subject to the subjects vector
+        t.push_back(new_subject);
+
+        // Create a new file for the subject and write the questions into it
+        ofstream file("quiz_" + subject_name + ".txt");
+        if (file.is_open()) {
+            for (int i = 0; i < num_questions; ++i) {
+                file << "Question " << i + 1 << ": " << questions_and_answers[i].first << endl;
+                file << "Options: " << endl;
+                file << "a) " << questions_and_answers[i].second[0] << endl;
+                file << "b) " << questions_and_answers[i].second[1] << endl;
+                file << "c) " << questions_and_answers[i].second[2] << endl;
+                file << "d) " << questions_and_answers[i].second[3] << endl;
+            }
+            file.close();
+            cout << "Subject added successfully and questions saved in quiz_" << subject_name << ".txt!" << endl;
+        } else {
+            cout << "Error: Unable to create file for the subject." << endl;
+        }
+
+        cout << "Do you want to add another subject? (yes/no): ";
+        getline(cin, input);
+    } while (input == "yes" || input == "Yes");
 }
 
 
