@@ -330,9 +330,10 @@ void Admin::admin::add_subject() {
         Subjects new_subject;
         new_subject.subject_name = subject_name;
 
-        vector<pair<string, string>> questions_and_options;
+        vector<pair<string, string>> questions_and_options(10);
 
         cout << "Enter questions and options (a, b, c, d) for the quiz:" << endl;
+     
         for (int i = 0; i < 10; ++i) {
             cout << "Question " << i + 1 << ": ";
             getline(cin, questions_and_options[i].first);
