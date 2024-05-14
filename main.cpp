@@ -5,6 +5,8 @@
 
 using namespace std;
 
+//DataBase of the Student and Subject
+
 namespace DataBase{
    
     struct Student{
@@ -33,14 +35,50 @@ return os;
 
 };
 
+struct Subjects{
+
+  string subject_name;
+  char answers[10];
+ 
+};
+ 
+  void function();
+
 }
 
-
 vector<DataBase::Student> students;
+vector<DataBase::Subjects> t;
 
-namespace Admin{
+void DataBase::function(){
+
+Subjects s1[4];
+s1[0].subject_name="C++";
+
+char c[] = "dcbdcadcdd";
+char python[]="cdbcadabbd";
+char javascript[]="aabadbbaac";
+char java[]="bdcbcddcbb";
+
+for(int i=0;i<10;i++){
+  s1[0].answers[i]=c[i];
+  s1[3].answers[i]=python[i];
+  s1[2].answers[i]=javascript[i];
+  s1[1].answers[i]=java[i];
+}
+
+s1[1].subject_name="JAVA";
+s1[2].subject_name="JAVA SCRIPT";
+s1[3].subject_name="PYTHON";
+
+for(int i=0;i<4;i++){
+t.push_back(s1[i]);
+}
+
+}
 
 //ADMIN
+
+namespace Admin{
 
 class admin{
 
@@ -50,7 +88,7 @@ string admin_password;
 
 public:
 
-void add_subject();
+
 
 admin(){
         admin_name="Mehdi";
@@ -155,168 +193,24 @@ admin(){
     cout<<"\nTotal number of students are:"<<students.size()<<endl;
   } //Display Student Ends...
 
-
-struct Subjects{
-
-  string subject_name;
-
-  char answers[10];
-
-    void function(string file){
-
-     cout<<"\nSUBJECT: "<<subject_name<<endl<<endl;
-
-     ifstream obj(file);
-
-     string store;
-
-     char choice;
-     int line=1;
-     int i=0;
-
-        while(getline(obj,store)){
-
-          cout<<store<<endl;
-
-          if(line%6==0){
-
-            cout<<"\n";
-            cout<<"Choose a,b,c,d"<<endl;
-            cin>>choice;
-            cin.ignore();
-
-          if(choice==answers[i]){
-
-            cout<<"\nCORRECT"<<endl<<endl;    
-        }
-
-        else{
-
-            cout<<"\nINCORRECT"<<endl<<endl;
-        }
-        ++i;
-        }
-
-    ++line;
-   }
- }
-
-
-};
-
-void function();
 void displaySubjects();
+void add_subject();
 
 }; //class Admin Ends...
 
 }//Namspace Admin ends
 
 //-----------------------------------------------------------------------------------------------------------------------------------//
-vector<Admin::admin::Subjects> t;
 
-void Admin :: admin::function(){
 
-Subjects s1[4];
-s1[0].subject_name="C++";
 
-char c[] = "dcbdcadcdd";
-char python[]="cdbcadabbd";
-char javascript[]="aabadbbaac";
-char java[]="bdcbcddcbb";
-
-for(int i=0;i<10;i++){
-  s1[0].answers[i]=c[i];
-  s1[3].answers[i]=python[i];
-  s1[2].answers[i]=javascript[i];
-  s1[1].answers[i]=java[i];
-}
-
-s1[1].subject_name="JAVA";
-s1[2].subject_name="JAVA SCRIPT";
-s1[3].subject_name="PYTHON";
-
-for(int i=0;i<4;i++){
-t.push_back(s1[i]);
-}
-
-}
-
-//--------------------------------------------------------------------------------------------------------------------------------------//
-
-namespace Student {
-
-    class Student : public Admin::admin {
-
-    private :
-        string name ;
-               
-
-    public:
-            void takeQuiz(const string& subject, const string& answersFileName) {
-            ifstream file(answersFileName);
-            if (!file.is_open()) {
-                cout << "Error: Unable to open file." << endl;
-                return;
-            }
-
-            string answers;
-            int score = 0;
-            char choice;
-
-            int line = 1;
-            int i = 0;
-            string store;
-            while (getline(file, store)) {
-                cout << store << endl;
-                if (line % 6 == 0) {
-                    cout<<"\n";
-                    cout << "Choose a, b, c, d: ";
-                    cin >> choice;
-                    cin.ignore();
-                    cout<<"\n";
-                    if (choice == answers[i]) {
-                        score++;
-                    } 
-                    ++i;
-                }
-                ++line;
-            }
-
-            file.close();
-            ofstream files(name+".txt",ios::app);
-            
-            if(files.is_open()){
-              
-              files<<name<<endl;
-              files<<subject<<endl;
-              files<<score<<"/10"<<endl;
-            
-            }
-            files.close();
-
-        }
-
-        void viewQuizHistory(){
-           ifstream read(name+".txt");
-           string store;
-          while(getline(read,store)){
-            cout<<store<<endl;
-          }
-          read.close();
-        }
-
-       bool login(const string& username, const string& password){
-    for(auto & student : students){
-        if(student.name == username && student.password == password){
-            name = username; // Set the name of the student upon successful login
-            return true;
-        }
+void Admin::admin::displaySubjects() {
+    cout << "List of Subjects:" << endl;
+    for (const auto& subject : t) {
+        cout << subject.subject_name << endl;
     }
-    return false;
 }
-    };
-}
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
 void Admin::admin::add_subject() {
     
     string subject_name;
@@ -327,7 +221,7 @@ void Admin::admin::add_subject() {
         cout << "Enter subject name: ";
         getline(cin, subject_name);
 
-        Subjects new_subject;
+        DataBase::Subjects new_subject;
         new_subject.subject_name = subject_name;
 
         vector<pair<string, string>> questions_and_options(10);
@@ -376,21 +270,94 @@ void Admin::admin::add_subject() {
         getline(cin, input);
     } while (input == "yes" || input == "Yes");
 }
-//--------------------------------------------------------------------------------------------------------------------------------------------------------//
-void Admin::admin::displaySubjects() {
-    cout << "List of Subjects:" << endl;
-    for (const auto& subject : t) {
-        cout << subject.subject_name << endl;
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------//
+
+namespace Student {
+
+    class Student  {
+
+    private :
+        string name ;
+               
+
+    public:
+            void takeQuiz(int number ,const string& subject, const string& answersFileName) {
+            ifstream file(answersFileName);
+            if (!file.is_open()) {
+                cout << "Error: Unable to open file." << endl;
+                return;
+            }
+
+            string answers;
+            int score = 0;
+            char choice;
+
+            int line = 1;
+            int i = 0;
+            string store;
+            while (getline(file, store)) {
+                cout << store << endl;
+                if (line % 6 == 0) {
+                    cout<<"\n";
+                    cout << "Choose a, b, c, d: ";
+                    cin >> choice;
+                    cin.ignore();
+                    cout<<"\n";
+                    if (choice == t[number].answers[i]) {
+                        score++;
+                    } 
+                    ++i;
+                }
+                ++line;
+            }
+
+            file.close();
+            ofstream files(name+".txt",ios::app);
+            
+            if(files.is_open()){
+              
+              files<<name<<endl;
+              files<<subject<<endl;
+              files<<score<<"/10"<<endl;
+            
+            }
+            files.close();
+
+        }
+
+        void viewQuizHistory(){
+           ifstream read(name+".txt");
+           string store;
+          while(getline(read,store)){
+            cout<<store<<endl;
+          }
+          read.close();
+        }
+
+       bool login(const string& username, const string& password){
+    for(auto & student : students){
+        if(student.name == username && student.password == password){
+            name = username; // Set the name of the student upon successful login
+            return true;
+        }
     }
+    return false;
+}
+    };
 }
 
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 
 int main() {
    
+    DataBase::function();
     bool admin_check;
     Admin::admin ad;
-    ad.function();
+    
     bool check=true;
     bool a=true;
     bool s=true;
@@ -482,6 +449,7 @@ cout<<"\n\n\t\t\t\t---------- WELCOME to THE QUIZ SYSTEM !   -----------\n"<<end
         if (student.login(username, password)) {
            cout << "Logged in as student." <<endl;
             int option;
+            int number;
            string subject;
        cout<<"\t\t\t\t\t _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ "<<endl;
        cout<<"\t\t\t\t\t|  Choose an option:            |"<<endl;
@@ -496,11 +464,15 @@ cout<<"\n\n\t\t\t\t---------- WELCOME to THE QUIZ SYSTEM !   -----------\n"<<end
             switch (option) {
 
                 case 1:
+                   int number;
                    cout<<"\nFollowing are available Subjects"<<endl;
                    ad.displaySubjects();
-                   cout << "Enter subject: ";
-                   getline(cin, subject);
-                    student.takeQuiz(subject,subject + ".txt");
+                   cout << "Enter subject number : ";
+                cin>>number;
+                cin.ignore();
+                --number;
+                   subject=t[number].subject_name;
+                    student.takeQuiz(number,subject,subject + ".txt");
                     break;
                 case 2:
                     student.viewQuizHistory();
