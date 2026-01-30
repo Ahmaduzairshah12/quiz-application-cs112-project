@@ -38,7 +38,7 @@ return os;
 struct Subjects{
 
   string subject_name;
-  char answers[10];
+  vector<char> answers;
  
 };
  
@@ -58,6 +58,12 @@ char c[] = "dcbdcadcdd";
 char python[]="cdbcadabbd";
 char javascript[]="aabadbbaac";
 char java[]="bdcbcddcbb";
+
+// Resize the answer vectors to hold 10 answers each
+s1[0].answers.resize(10);
+s1[1].answers.resize(10);
+s1[2].answers.resize(10);
+s1[3].answers.resize(10);
 
 for(int i=0;i<10;i++){
   s1[0].answers[i]=c[i];
@@ -221,25 +227,35 @@ void Admin::admin::add_subject() {
         cout << "Enter subject name: ";
         getline(cin, subject_name);
 
+        int num_questions;
+        cout << "How many questions do you want to add? ";
+        cin >> num_questions;
+        cin.ignore();
+
         DataBase::Subjects new_subject;
         new_subject.subject_name = subject_name;
+        new_subject.answers.resize(num_questions);
 
-        vector<pair<string, string>> questions_and_options(10);
+        vector<string> questions(num_questions);
+        vector<string> option_a(num_questions);
+        vector<string> option_b(num_questions);
+        vector<string> option_c(num_questions);
+        vector<string> option_d(num_questions);
 
         cout << "Enter questions and options (a, b, c, d) for the quiz:" << endl;
      
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < num_questions; ++i) {
             cout << "Question " << i + 1 << ": ";
-            getline(cin, questions_and_options[i].first);
+            getline(cin, questions[i]);
             cout << "Enter options (a, b, c, d) for Question " << i + 1 << ":" << endl;
             cout << "Option a: ";
-            getline(cin, questions_and_options[i].second);
+            getline(cin, option_a[i]);
             cout << "Option b: ";
-            getline(cin, questions_and_options[i].second);
+            getline(cin, option_b[i]);
             cout << "Option c: ";
-            getline(cin, questions_and_options[i].second);
+            getline(cin, option_c[i]);
             cout << "Option d: ";
-            getline(cin, questions_and_options[i].second);
+            getline(cin, option_d[i]);
             cout << "Enter answer (a, b, c, d) for Question " << i + 1 << ": ";
             cin >> new_subject.answers[i];
             cin.ignore(); // Ignore newline character
@@ -251,13 +267,13 @@ void Admin::admin::add_subject() {
         // Create a new file for the subject and write the questions into it
         ofstream file(subject_name + ".txt");
         if (file.is_open()) {
-            for (int i = 0; i < 10; ++i) {
-                file << "Question " << i + 1 << ": " << questions_and_options[i].first << endl;
-                file << "Options: " << endl;
-                file << "a) " << questions_and_options[i].second << endl;
-                file << "b) " << questions_and_options[i].second << endl;
-                file << "c) " << questions_and_options[i].second << endl;
-                file << "d) " << questions_and_options[i].second << endl;
+            for (int i = 0; i < num_questions; ++i) {
+                file << "Question " << i + 1 << endl;
+                file << questions[i] << endl;
+                file << "a) " << option_a[i] << endl;
+                file << "b) " << option_b[i] << endl;
+                file << "c) " << option_c[i] << endl;
+                file << "d) " << option_d[i] << endl;
                 file << "Answer: " << new_subject.answers[i] << endl;
             }
             file.close();
@@ -320,7 +336,7 @@ namespace Student {
               
               files<<name<<endl;
               files<<subject<<endl;
-              files<<score<<"/10"<<endl;
+              files<<score<<"/"<<t[number].answers.size()<<endl;
             
             }
             files.close();
@@ -384,6 +400,7 @@ cout<<"\n\n\t\t\t\t---------- WELCOME to THE QUIZ SYSTEM !   -----------\n"<<end
         admin_check=ad.SignIn();
        
         if (admin_check == true) {
+            a=true;
             system("CLS"); 
             cout << "\nWELCOME ADMIN!" <<endl;
             cout<<"\n\t\t\t CHOOSE ANY OPTION :"<<endl<<endl;
@@ -439,7 +456,6 @@ cout<<"\n\n\t\t\t\t---------- WELCOME to THE QUIZ SYSTEM !   -----------\n"<<end
 
 
        if (choice == 2) {
-       do{
        string username, password;
        cout << "Enter username: ";
        getline(cin, username);
@@ -447,7 +463,10 @@ cout<<"\n\n\t\t\t\t---------- WELCOME to THE QUIZ SYSTEM !   -----------\n"<<end
        getline(cin, password);
 
         if (student.login(username, password)) {
+           s=true;
            cout << "Logged in as student." <<endl;
+           
+           do{
             int option;
             int number;
            string subject;
@@ -483,10 +502,11 @@ cout<<"\n\n\t\t\t\t---------- WELCOME to THE QUIZ SYSTEM !   -----------\n"<<end
                 default:
                    cout << "Invalid option." <<endl;
             }
+        }while(s); 
         } else {
            cout << "Invalid username or password." <<endl;
         }
-    }while(s); }
+     }
    
    else if(choice==3){
    
